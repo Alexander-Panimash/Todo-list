@@ -1,0 +1,40 @@
+.finished-todo-list {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0 0 0;
+  padding: 0;
+}
+
+.finished-todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 500px;
+  text-align: center;
+  border: 2px solid #b2d9d0;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #d3fdcd;
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 0.8;
+    border-color: rgb(133, 255, 117);
+  }
+}
+
+.finished-task-name {
+  flex: 1 1 20px;
+}
+
+
+.finished-todo-item:last-child {
+  margin-bottom: 0;
+}
+
+.selected {
+  background-color: #fac9cd;
+}
