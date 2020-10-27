@@ -1,9 +1,9 @@
 import React from 'react';
-import { ITodo } from '../components/todos/TodoList';
+import { ITodo } from '../components/todo-list/TodoList';
 
 class TodoService extends React.Component {
 
-  todos: ITodo[] = [
+  todoItems: ITodo[] = [
     {name: 'learn HTML', id: 1, finished: false},
     {name: 'learn CSS', id: 2, finished: false},
     {name: 'learn JavaScript', id: 3, finished: false},
@@ -11,40 +11,40 @@ class TodoService extends React.Component {
     {name: 'stay alive', id: 5, finished: false}
   ];
 
-  finishedTodos: ITodo[] = [];
+  finishedTodoItems: ITodo[] = [];
 
-  getTodos(): ITodo[] {
-    return this.todos;
+  getTodoItems(): ITodo[] {
+    return this.todoItems;
   }
 
-  setTodos(newToDos: ITodo[]): void {
-    this.todos = newToDos;
+  setTodoItems(newToDos: ITodo[]): void {
+    this.todoItems = newToDos;
   }
 
-  setFinishedTodos(newFinishedToDos: ITodo[]): void {
-    this.finishedTodos = newFinishedToDos;
+  setFinishedTodoItems(newFinishedToDos: ITodo[]): void {
+    this.finishedTodoItems = newFinishedToDos;
   }
 
-  getFinishedTodos(): ITodo[] {
-    return this.finishedTodos;
+  getFinishedTodoItems(): ITodo[] {
+    return this.finishedTodoItems;
   }
 
   addNewTodo(todo: ITodo) {
-    this.todos.push(todo);
+    this.todoItems.push(todo);
   }
 
   finishTodo(id: number) {
-    this.processTodo(this.todos, this.finishedTodos, id, true,
-      (todo) => this.setFinishedTodos(todo), (todo) => this.setTodos(todo));
+    this.processTodo(this.todoItems, this.finishedTodoItems, id, true,
+      (todo) => this.setFinishedTodoItems(todo), (todo) => this.setTodoItems(todo));
   }
 
-  unfinishTodo(id: number) {
-    this.processTodo(this.finishedTodos, this.todos, id, false,
-      (todo) => this.setTodos(todo), (todo) => this.setFinishedTodos(todo));
+  unFinishTodo(id: number) {
+    this.processTodo(this.finishedTodoItems, this.todoItems, id, false,
+      (todo) => this.setTodoItems(todo), (todo) => this.setFinishedTodoItems(todo));
   }
 
   private processTodo(todosToDelete: ITodo[], todosToAdd: ITodo[], id: number, isFinished: boolean,
-                      callbackToPutTodo: (todos: ITodo[]) => void, callbackToDeleteTodo: (todos: ITodo[]) => void) {
+                      callbackToPutTodo: (todoItems: ITodo[]) => void, callbackToDeleteTodo: (todoItems: ITodo[]) => void) {
     const temporaryToDos: ITodo[] = [...todosToDelete];
     const todoToProcess = temporaryToDos.find((todo) => todo.id === id);
     if (todoToProcess) {

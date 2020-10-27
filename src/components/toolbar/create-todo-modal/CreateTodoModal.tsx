@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ITodo } from '../../todos/TodoList';
+import { ITodo } from '../../todo-list/TodoList';
 import './CreateTodoModal.scss';
 
 const CreateTodoModal = (props: { isOpen: boolean, toggle: () => void, addNewTodo: (todo: ITodo) => void }) => {
