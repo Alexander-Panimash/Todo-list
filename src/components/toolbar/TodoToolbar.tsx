@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ITodo } from '../todo-list/TodoList';
+import { ITodo } from '../../models/Todo';
 import CreateTodoModal from './create-todo-modal/CreateTodoModal';
 import './TodoToolbar.scss';
 

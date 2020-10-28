@@ -1,14 +1,14 @@
 import React from 'react';
-import { ITodo } from '../components/todo-list/TodoList';
+import { ITodo } from '../models/Todo';
 
 class TodoService extends React.Component {
 
   todoItems: ITodo[] = [
-    {name: 'learn HTML', id: 1, finished: false},
-    {name: 'learn CSS', id: 2, finished: false},
-    {name: 'learn JavaScript', id: 3, finished: false},
-    {name: 'learn PHP', id: 4, finished: false},
-    {name: 'stay alive', id: 5, finished: false}
+    {name: 'learn HTML', id: 1, finished: false, date: new Date()},
+    {name: 'learn CSS', id: 2, finished: false, date: new Date()},
+    {name: 'learn JavaScript', id: 3, finished: false, date: new Date()},
+    {name: 'learn PHP', id: 4, finished: false, date: new Date()},
+    {name: 'stay alive', id: 5, finished: false, date: new Date()}
   ];
 
   finishedTodoItems: ITodo[] = [];

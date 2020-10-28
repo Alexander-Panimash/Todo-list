@@ -1,5 +1,5 @@
 import React from 'react';
-import { ITodo } from '../components/todo-list/TodoList';
+import { ITodo } from '../models/Todo';
 
 class DragAndDropService extends React.Component {
 

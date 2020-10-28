@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ITodo } from '../../todo-list/TodoList';
+import { ITodo } from '../../../models/Todo';
 import './CreateTodoModal.scss';
 
 const CreateTodoModal = (props: { isOpen: boolean, toggle: () => void, addNewTodo: (todo: ITodo) => void }) => {
@@ -16,7 +16,7 @@ const CreateTodoModal = (props: { isOpen: boolean, toggle: () => void, addNewTod
   };
 
   const addNewToDoAndCloseModal = () => {
-    addNewTodo({name: nameForNewTodo, id: Math.round(Math.random() * 100000), finished: false});
+    addNewTodo({name: nameForNewTodo, id: Math.round(Math.random() * 100000), finished: false, date: new Date()});
     closeModal();
   };
 

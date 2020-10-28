@@ -1,6 +1,6 @@
 import { Checkbox } from '@material-ui/core';
 import React from 'react';
-import { ITodo } from '../todo-list/TodoList';
+import { ITodo } from '../../models/Todo';
 import './Todo.scss';
 
 export interface ITodosData {
@@ -28,5 +28,6 @@ export const Todo = (props: ITodosData) => {
       inputProps={{'aria-label': 'primary checkbox'}}
     />
     <span className={todo.finished ? 'finished-task-name' : 'task-name'}>{todo.name}</span>
+    <span>{todo.date.toDateString()}</span>
   </div>;
 };

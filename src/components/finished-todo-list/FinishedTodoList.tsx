@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { ITodo } from '../../models/Todo';
 import { dragAndDropService } from '../../services/DragAndDropService';
-import { ITodo } from '../todo-list/TodoList';
 import { Todo } from '../todo/Todo';
 import './FinishedTodoList.scss';
 
@@ -21,6 +21,7 @@ export const FinishedTodoList = (props: IFinishedTodoList) => {
       <h2>Finished Tasks</h2>
       {props.todoItems.map((todoElement, index) => {
         return <Todo
+          key={todoElement.name + todoElement.id}
           index={index}
           onDragStart={(e) => dragAndDropService.dragStartHandler(e)}
           onDragEnd={(e) => dragAndDropService.dragEndHandler(e, index, dragEndIndex, props.todoItems,
