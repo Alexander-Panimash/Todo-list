@@ -1,61 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { FinishedTodoList } from '../../components/finished-todo-list/FinishedTodoList';
-import { TodoList } from '../../components/todo-list/TodoList';
-import TodoToolbar from '../../components/toolbar/TodoToolbar';
-import { ITodo } from '../../models/Todo';
-import { todoService } from '../../services/TodoService';
+import { ITask } from '../../components/common/models/ITask';
+import { FinishedTasksList } from '../../components/specific/tasks/finished-tasks-list/FinishedTasksList';
+import { TasksList } from '../../components/specific/tasks/tasks-list/TasksList';
+import Toolbar from '../../components/specific/tasks/toolbar/Toolbar';
+import { tasksService } from '../../services/TasksService';
 import './Tasks.scss';
 
 const Tasks = () => {
-  const [todoItems, setTodoItems] = useState<ITodo[]>([]);
-  const [finishedTodoItems, setFinishedTodoItems] = useState<ITodo[]>([]);
+  const [tasks, setTasks] = useState<ITask[]>([]);
+  const [finishedTasks, setFinishedTasks] = useState<ITask[]>([]);
 
   useEffect(() => {
-    setTodoItems(todoService.getTodoItems());
+    setTasks(tasksService.getTasks());
   }, []);
 
-  const setNewTodoItems = (todoItems: ITodo[]) => {
-    todoService.setTodoItems(todoItems);
+  const setNewTasks = (tasks: ITask[]) => {
+    tasksService.setNewTasks(tasks);
     getData();
   };
 
-  const addNewTodo = (todo: ITodo) => {
-    todoService.addNewTodo(todo);
-    setNewTodoItems([...todoService.getTodoItems()]);
+  const setNewFinishedTasks = (finishedTasks: ITask[]) => {
+    tasksService.setFinishedTasks(finishedTasks);
+    getData();
+  };
+
+  const addNewTask = (task: ITask) => {
+    tasksService.addNewTask(task);
+    setNewTasks([...tasksService.getTasks()]);
   };
 
   const getData = () => {
-    setTodoItems([...todoService.getTodoItems()]);
-    setFinishedTodoItems([...todoService.getFinishedTodoItems()]);
+    setTasks([...tasksService.getTasks()]);
+    setFinishedTasks([...tasksService.getFinishedTasks()]);
   };
 
-  const finishTodo = (id: number) => {
-    todoService.finishTodo(id);
+  const finishTask = (id: number) => {
+    tasksService.finishTask(id);
     getData();
   };
 
-  const unFinishTodo = (id: number) => {
-    todoService.unFinishTodo(id);
+  const unFinishTask = (id: number) => {
+    tasksService.unFinishTask(id);
     getData();
   };
 
 
   return (
     <div className="tasks">
-      <h1 className="tasks__title">To do list</h1>
-      <TodoToolbar addNewTodo={(todo: ITodo) => addNewTodo(todo)}/>
-      {todoItems.length > 0
-        ? <TodoList
-          todoItems={todoItems}
-          setTodoItems={(todoItems: ITodo[]) => setNewTodoItems(todoItems)}
-          finishTodo={(id: number) => finishTodo(id)}
+      <h1 className="tasks__title">All tasks</h1>
+      <Toolbar addNewTask={(task: ITask) => addNewTask(task)}/>
+      {tasks.length > 0
+        ? <TasksList
+          tasks={tasks}
+          setTasks={(tasks: ITask[]) => setNewTasks(tasks)}
+          finishTask={(id: number) => finishTask(id)}
         />
         : <h1 className="tasks__title"> Enjoy your day</h1>}
-      {finishedTodoItems.length > 0
-        ? <FinishedTodoList
-          todoItems={finishedTodoItems}
-          setFinishedTodoItems={(finishedTodoItems: ITodo[]) => setFinishedTodoItems(finishedTodoItems)}
-          unFinishTodo={(id: number) => unFinishTodo(id)}/>
+      {finishedTasks.length > 0
+        ? <FinishedTasksList
+          finishedTasks={finishedTasks}
+          setFinishedTasks={(finishedTasks: ITask[]) => setNewFinishedTasks(finishedTasks)}
+          unFinishTask={(id: number) => unFinishTask(id)}/>
         : ''}
     </div>
   );

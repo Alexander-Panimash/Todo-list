@@ -1,5 +1,5 @@
 
-.todo-item {
+.task {
   display: flex;
   align-items: center;
   transition: background-color 0.5s;
@@ -23,7 +23,7 @@
   }
 }
 
-.todo-item:last-child {
+.task:last-child {
   margin-bottom: 0;
 }
 
@@ -31,7 +31,7 @@
   background-color: #fac9cd;
 }
 
-.finished-todo-item {
+.finished-task {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -56,6 +56,6 @@
 }
 
 
-.finished-todo-item:last-child {
+.finished-task:last-child {
   margin-bottom: 0;
 }
