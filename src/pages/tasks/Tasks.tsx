@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { ITask } from '../../components/common/models/ITask';
 import { FinishedTasksList } from '../../components/specific/tasks/finished-tasks-list/FinishedTasksList';
+import { TaskFilters } from '../../components/specific/tasks/task-filters/TaskFilters';
 import { TasksList } from '../../components/specific/tasks/tasks-list/TasksList';
 import Toolbar from '../../components/specific/tasks/toolbar/Toolbar';
+import { TimeFilters } from '../../enum/TimeFilters.enum';
+import { dateFilterService } from '../../services/DateFilterService';
 import { tasksService } from '../../services/TasksService';
 import './Tasks.scss';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
+  const [filteredTasks, setFilteredTasks] = useState<ITask[]>([]);
   const [finishedTasks, setFinishedTasks] = useState<ITask[]>([]);
+  const [filtersActive, setFiltersActive] = useState<boolean>(false);
 
   useEffect(() => {
     setTasks(tasksService.getTasks());
@@ -44,23 +49,35 @@ const Tasks = () => {
     getData();
   };
 
+  const filterTasks = (filterName: string): void => {
+    if (filterName !== TimeFilters.all) {
+      console.log(filterName, dateFilterService.filterTasks(filterName, tasks));
+      setFilteredTasks(dateFilterService.filterTasks(filterName, tasks));
+      setFiltersActive(true);
+    } else {
+      setFiltersActive(false);
+    }
+
+  };
+
 
   return (
     <div className="tasks">
       <h1 className="tasks__title">All tasks</h1>
-      <Toolbar addNewTask={(task: ITask) => addNewTask(task)}/>
+      <Toolbar addNewTask={addNewTask}/>
+      <TaskFilters filterTasks={filterTasks}/>
       {tasks.length > 0
         ? <TasksList
-          tasks={tasks}
-          setTasks={(tasks: ITask[]) => setNewTasks(tasks)}
-          finishTask={(id: number) => finishTask(id)}
+          tasks={filtersActive ? filteredTasks : tasks}
+          setTasks={setNewTasks}
+          finishTask={finishTask}
         />
         : <h1 className="tasks__title"> Enjoy your day</h1>}
       {finishedTasks.length > 0
         ? <FinishedTasksList
           finishedTasks={finishedTasks}
-          setFinishedTasks={(finishedTasks: ITask[]) => setNewFinishedTasks(finishedTasks)}
-          unFinishTask={(id: number) => unFinishTask(id)}/>
+          setFinishedTasks={setNewFinishedTasks}
+          unFinishTask={unFinishTask}/>
         : ''}
     </div>
   );

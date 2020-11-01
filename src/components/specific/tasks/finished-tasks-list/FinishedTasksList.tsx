@@ -25,10 +25,9 @@ export const FinishedTasksList = (props: IFinishedTasksList) => {
           key={task.name + task.id}
           index={index}
           onDragStart={(e) => dragAndDropService.dragStartHandler(e)}
-          onDragEnd={(e) => dragAndDropService.dragEndHandler(e, index, dragEndIndex, props.finishedTasks,
-            (tasks: ITask[]) => props.setFinishedTasks(tasks))}
-          onDragOver={(e) => dragAndDropService.dragOverHandler(e, index, (index: number) => setDragEndIndex(index))}
-          processTask={(id: number) => unFinishTask(id)}
+          onDragEnd={(e) => dragAndDropService.dragEndHandler(e, index, dragEndIndex, props.finishedTasks, props.setFinishedTasks)}
+          onDragOver={(e) => dragAndDropService.dragOverHandler(e, index, setDragEndIndex)}
+          processTask={unFinishTask}
           task={task}/>;
       })}
     </div>

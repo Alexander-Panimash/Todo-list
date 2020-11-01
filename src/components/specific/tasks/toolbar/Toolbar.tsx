@@ -13,12 +13,13 @@ const Toolbar = (props: { addNewTask: (task: ITask) => void }) => {
 
   return (
     <div className='tasks-toolbar'>
-      <CreateNewTaskModal isOpen={isCreateTaskModalOpen} addNewTask={(task: ITask) => addNewTask(task)}
-                          toggle={() => toggle()}/>
+      <CreateNewTaskModal isOpen={isCreateTaskModalOpen}
+                          addNewTask={addNewTask}
+                          toggle={toggle}/>
       <Button
         variant="contained"
         color="primary"
-        onClick={() => toggle()}>Add new task
+        onClick={toggle}>Add new task
       </Button>
     </div>
   );

@@ -44,11 +44,11 @@ const CreateNewTaskModal = (props: ICreateNewTaskModal) => {
 
   return (
     <Dialog className='create-task-modal' maxWidth='xs' fullWidth={true} open={isOpen}
-            onClose={() => closeModal()}>
+            onClose={closeModal}>
       <DialogTitle>Creating new task</DialogTitle>
       <DialogContent>
         <TextField label='name of new task' placeholder="new task name" id="taskName"
-                   onChange={(value: any) => onChangeHandler(value)}/>
+                   onChange={onChangeHandler}/>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             disableToolbar
@@ -77,9 +77,9 @@ const CreateNewTaskModal = (props: ICreateNewTaskModal) => {
         </MuiPickersUtilsProvider>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="secondary" onClick={() => closeModal()}>Cancel</Button>
+        <Button variant="contained" color="secondary" onClick={closeModal}>Cancel</Button>
         <Button variant="contained" disabled={!nameForNewTask} color="primary"
-                onClick={() => addNewTaskAndCloseModal()}>Confirm</Button>
+                onClick={addNewTaskAndCloseModal}>Confirm</Button>
       </DialogActions>
     </Dialog>
   );

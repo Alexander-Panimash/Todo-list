@@ -23,10 +23,10 @@ export const TasksList = (props: ITaskListData) => {
         return <Task key={task.name + task.id}
                      index={index}
                      onDragStart={(e) => dragAndDropService.dragStartHandler(e)}
-                     onDragEnd={(e) => dragAndDropService.dragEndHandler(e, index, dragEndIndex, props.tasks,
-                       (tasks: ITask[]) => props.setTasks(tasks))}
-                     onDragOver={(e) => dragAndDropService.dragOverHandler(e, index, (index: number) => setDragEndIndex(index))}
-                     task={task} processTask={(id: number) => finishTask(id)}/>;
+                     onDragEnd={(e) => dragAndDropService.dragEndHandler(e, index, dragEndIndex, props.tasks, props.setTasks)}
+                     onDragOver={(e) => dragAndDropService.dragOverHandler(e, index, setDragEndIndex)}
+                     task={task}
+                     processTask={finishTask}/>;
       })}
     </div>
   );
