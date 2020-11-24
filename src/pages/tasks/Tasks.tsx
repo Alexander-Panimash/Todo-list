@@ -1,86 +1,76 @@
+import { toJS } from 'mobx';
+import { inject, observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import { ITask } from '../../components/common/models/ITask';
-import { FinishedTasksList } from '../../components/specific/tasks/finished-tasks-list/FinishedTasksList';
+import DeleteTaskModal from '../../components/specific/tasks/modals/delete-task-modal/DeleteTaskModal';
 import { TaskFilters } from '../../components/specific/tasks/task-filters/TaskFilters';
 import { TasksList } from '../../components/specific/tasks/tasks-list/TasksList';
 import Toolbar from '../../components/specific/tasks/toolbar/Toolbar';
-import { TimeFilters } from '../../enum/TimeFilters.enum';
-import { dateFilterService } from '../../services/DateFilterService';
-import { tasksService } from '../../services/TasksService';
+import { TaskStore } from '../../store/TaskStore';
 import './Tasks.scss';
 
-const Tasks = () => {
-  const [tasks, setTasks] = useState<ITask[]>([]);
-  const [filteredTasks, setFilteredTasks] = useState<ITask[]>([]);
-  const [finishedTasks, setFinishedTasks] = useState<ITask[]>([]);
-  const [filtersActive, setFiltersActive] = useState<boolean>(false);
 
-  useEffect(() => {
-    setTasks(tasksService.getTasks());
-  }, []);
+const Tasks = inject('taskStore')(observer((stores: { taskStore: TaskStore }) => {
+    const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState<ITask>({} as ITask);
+    const toggle = () => setIsDeleteTaskModalOpen(!isDeleteTaskModalOpen);
 
-  const setNewTasks = (tasks: ITask[]) => {
-    tasksService.setNewTasks(tasks);
-    getData();
-  };
+    const {storeTasks, getTasks, deleteTask, createTask, processTask} = stores.taskStore;
+    const [finishedTasks, setFinishedTasks] = useState<ITask[]>([]);
+    useEffect(() => {
+      getTasks();
+    }, []);
 
-  const setNewFinishedTasks = (finishedTasks: ITask[]) => {
-    tasksService.setFinishedTasks(finishedTasks);
-    getData();
-  };
+    const deleteTodoTask = () => {
+      setIsDeleteTaskModalOpen(false);
+      deleteTask(taskToDelete.id);
+    };
 
-  const addNewTask = (task: ITask) => {
-    tasksService.addNewTask(task);
-    setNewTasks([...tasksService.getTasks()]);
-  };
+    const getTaskToDelete = (task: ITask) => {
+      setTaskToDelete(task);
+      setIsDeleteTaskModalOpen(true);
+    };
 
-  const getData = () => {
-    setTasks([...tasksService.getTasks()]);
-    setFinishedTasks([...tasksService.getFinishedTasks()]);
-  };
+    const addNewTask = (task: ITask) => {
+      createTask(task);
+    };
 
-  const finishTask = (id: number) => {
-    tasksService.finishTask(id);
-    getData();
-  };
+    const processTodoTask = (task: ITask) => {
+      processTask(task);
+    };
 
-  const unFinishTask = (id: number) => {
-    tasksService.unFinishTask(id);
-    getData();
-  };
+    const unFinishTask = (id: number) => {
+      // tasksService.unFinishTask(id);
+      // getData();
+    };
 
-  const filterTasks = (filterName: string): void => {
-    if (filterName !== TimeFilters.all) {
-      console.log(filterName, dateFilterService.filterTasks(filterName, tasks));
-      setFilteredTasks(dateFilterService.filterTasks(filterName, tasks));
-      setFiltersActive(true);
-    } else {
-      setFiltersActive(false);
-    }
-
-  };
+    const filterTasks = (filterName: string): void => {
+      // if (filterName !== TimeFilters.all) {
+      //   console.log(filterName, dateFilterService.filterTasks(filterName, tasks));
+      //   setFilteredTasks(dateFilterService.filterTasks(filterName, tasks));
+      //   setFiltersActive(true);
+      // } else {
+      //   setFiltersActive(false);
+      // }
+    };
 
 
-  return (
-    <div className="tasks">
-      <h1 className="tasks__title">All tasks</h1>
-      <Toolbar addNewTask={addNewTask}/>
-      <TaskFilters filterTasks={filterTasks}/>
-      {tasks.length > 0
-        ? <TasksList
-          tasks={filtersActive ? filteredTasks : tasks}
-          setTasks={setNewTasks}
-          finishTask={finishTask}
-        />
-        : <h1 className="tasks__title"> Enjoy your day</h1>}
-      {finishedTasks.length > 0
-        ? <FinishedTasksList
-          finishedTasks={finishedTasks}
-          setFinishedTasks={setNewFinishedTasks}
-          unFinishTask={unFinishTask}/>
-        : ''}
-    </div>
-  );
-};
-
+    return (
+      <div className="tasks">
+        <h1 className="tasks__title">All tasks</h1>
+        <Toolbar addNewTask={addNewTask}/>
+        <DeleteTaskModal isOpen={isDeleteTaskModalOpen} toggle={toggle} deleteTask={deleteTodoTask} task={taskToDelete}/>
+        <TaskFilters filterTasks={filterTasks}/>
+        {storeTasks.length > 0
+          ? <TasksList
+            tasks={toJS(storeTasks)}
+            processTaskState={processTodoTask}
+            deleteTask={getTaskToDelete}
+            isFinishedList={false}
+          />
+          : <h1 className="tasks__title"> Enjoy your day</h1>}
+      </div>
+    );
+  }
+));
 export default Tasks;

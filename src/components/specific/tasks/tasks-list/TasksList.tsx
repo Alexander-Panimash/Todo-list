@@ -1,32 +1,36 @@
-import React, { useState } from 'react';
-import { dragAndDropService } from '../../../../services/DragAndDropService';
+import React from 'react';
 import { Task } from '../../../common/components/task/Task';
 import { ITask } from '../../../common/models/ITask';
 import './TasksList.scss';
 
 export interface ITaskListData {
   tasks: ITask[],
-  setTasks: (tasks: ITask[]) => void,
-  finishTask: (id: number) => void;
+  processTaskState: (task: ITask) => void;
+  deleteTask: (task: ITask) => void;
+  isFinishedList: boolean,
+  title?: string
 }
 
 export const TasksList = (props: ITaskListData) => {
-  const [dragEndIndex, setDragEndIndex] = useState<number>(0);
+  const {title, tasks} = props;
+  const processTaskState = (task: ITask) => {
+    props.processTaskState(task);
+  };
 
-  const finishTask = (id: number) => {
-    props.finishTask(id);
+  const deleteTask = (task: ITask) => {
+    console.log(props.tasks);
+    props.deleteTask(task);
   };
 
   return (
     <div className='tasks-list'>
-      {props.tasks.map((task, index) => {
+      {title || ''}
+      {tasks.map((task, index) => {
         return <Task key={task.name + task.id}
+                     deleteTask={deleteTask}
                      index={index}
-                     onDragStart={(e) => dragAndDropService.dragStartHandler(e)}
-                     onDragEnd={(e) => dragAndDropService.dragEndHandler(e, index, dragEndIndex, props.tasks, props.setTasks)}
-                     onDragOver={(e) => dragAndDropService.dragOverHandler(e, index, setDragEndIndex)}
                      task={task}
-                     processTask={finishTask}/>;
+                     processTask={processTaskState}/>;
       })}
     </div>
   );

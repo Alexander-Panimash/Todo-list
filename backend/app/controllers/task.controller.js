@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Task
 export const createTask = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.name) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -106,6 +106,32 @@ export const deleteTask = (req, res) => {
             } else {
                 res.send({
                     message: `Cannot delete Task with id=${id}. Maybe Task was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Task with id=" + id
+            });
+        });
+};
+
+// Delete a Task with the specified id in the request
+export const processTask = (req, res) => {
+    const id = req.params.id;
+
+    Task.update({finished: req.body.finished}, {
+        where: {id: id}
+    })
+        .then(num => {
+            console.log(num);
+            if (num[0] === 1) {
+                res.send({
+                    message: "Task status was changed successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot finish Task with id=${id}. Maybe Task was not found!`
                 });
             }
         })

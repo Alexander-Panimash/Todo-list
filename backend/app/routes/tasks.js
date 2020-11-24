@@ -24,6 +24,9 @@ taskRoutes.put("/:id", tasks.updateTask);
 // Delete a Tutorial with id
 taskRoutes.delete("/:id", tasks.deleteTask);
 
+// Finish task with id
+taskRoutes.put("/finish/:id", tasks.processTask);
+
 // Delete all tasks
 taskRoutes.delete("/", tasks.deleteAllTasks);
 

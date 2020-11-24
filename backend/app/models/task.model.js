@@ -1,12 +1,7 @@
 import {default as DataTypes} from 'sequelize';
 
 export const tasks = (sequelize) => {
-    return  sequelize.define("task", {
-        id: {
-            type: DataTypes.INTEGER,
-            field: 'id',
-            primaryKey: true
-        },
+    return sequelize.define("task", {
         name: {
             type: DataTypes.STRING,
             field: 'name'

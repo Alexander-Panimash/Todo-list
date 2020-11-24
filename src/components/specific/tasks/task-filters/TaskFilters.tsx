@@ -16,7 +16,8 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex'
+      display: 'flex',
+      backgroundColor: 'red'
     },
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,

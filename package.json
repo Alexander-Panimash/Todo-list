@@ -1,5 +1,5 @@
 {
-  "name": "drag-n-drop",
+  "name": "todo-list",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +15,11 @@
     "@types/react": "^16.9.52",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.6",
+    "axios": "^0.21.0",
     "date-fns": "^2.16.1",
+    "mobx": "^6.0.4",
+    "mobx-react": "^7.0.5",
+    "mobx-utils": "^6.0.1",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
     "react": "^16.14.0",
